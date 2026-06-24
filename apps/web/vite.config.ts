@@ -11,4 +11,10 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    watch: {
+      // Prevent Vite from watching locked Windows system files (VS Code AppData, etc.)
+      ignored: ["**/AppData/**", "**/node_modules/**", "**/.git/**"],
+    },
+  },
 })
