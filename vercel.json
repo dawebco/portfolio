@@ -1,0 +1,6 @@
+{
+  "outputDirectory": "apps/web/dist",
+  "buildCommand": "turbo build",
+  "installCommand": "npm install",
+  "framework": null
+}
