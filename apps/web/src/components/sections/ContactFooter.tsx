@@ -3,7 +3,6 @@ import type { CSSProperties, ReactNode } from "react"
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Mail, MessageCircle, ArrowRight, Globe, Camera, X } from "lucide-react"
-import { Logo } from "@/components/Logo"
 
 const WHATSAPP_URL =
   "https://wa.me/917625072926?text=Hi%20DaWebCo.%2C%20I%27d%20like%20to%20discuss%20a%20web%20project.%20Can%20we%20schedule%20a%20discovery%20call%3F"
