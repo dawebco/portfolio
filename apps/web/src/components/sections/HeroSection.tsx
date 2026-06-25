@@ -3,27 +3,29 @@ import { motion } from "framer-motion"
 import { ArrowRight, Sparkles } from "lucide-react"
 import { AntiGravityCanvas } from "@/components/ui/particle-effect-for-hero"
 
-const displayHeadingStyle: CSSProperties = {
-  fontFamily: "'Playfair Display', Georgia, serif",
-  background: "linear-gradient(135deg, #FFFFFF 0%, #F5E6A3 35%, #D4AF37 65%, #B87333 100%)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  backgroundClip: "text",
-}
+export const displayHeadingStyle: CSSProperties = {
+  // 1. Typography & Hierarchy
+  fontFamily: 'var(--font-display, "Playfair Display", Georgia, serif)',
+  fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', // Responsive fluid typography
+  fontWeight: 700,
+  lineHeight: 1.1,
+  letterSpacing: '-0.02em', // Premium fonts need tight tracking at large sizes
 
-const goldTextStyle: CSSProperties = {
-  fontFamily: "'Playfair Display', Georgia, serif",
-  background: "linear-gradient(135deg, #F5E6A3, #D4AF37)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  backgroundClip: "text",
-}
+  // 2. High-End Metallic Gradient (Smoother interpolation)
+  backgroundImage: 'linear-gradient(135deg, #FFFFFF 10%, #ECE2B4 50%, #C5A059 100%)',
+  
+  // 3. Flawless Text Clipping Implementation
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+  
+  // 4. Fine-Tuning for Elegance
+  textRendering: 'optimizeLegibility',
+  WebkitFontSmoothing: 'antialiased',
+  MozOsxFontSmoothing: 'grayscale',
+};
 
-const STATS = [
-  { value: "100+", label: "Projects Delivered" },
-  { value: "99+", label: "Lighthouse Score" },
-  { value: "3×", label: "Avg Revenue Growth" },
-]
+
 
 export function HeroSection() {
   return (
@@ -98,11 +100,12 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.55, ease: [0.25, 0.4, 0.25, 1] }}
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight max-w-5xl"
-          style={displayHeadingStyle}
         >
-          Zero Friction.
-          <br />
-          Infinite Reach.
+          <span style={displayHeadingStyle}>
+            Your competitors have one.
+            <br />
+            Do you?
+          </span>
         </motion.h1>
 
         {/* Sub-heading */}
@@ -112,8 +115,8 @@ export function HeroSection() {
           transition={{ duration: 0.7, delay: 0.75 }}
           className="mt-6 text-base md:text-lg text-white/55 max-w-xl leading-relaxed"
         >
-          We engineer premium websites that convert visitors into customers — built for small
-          businesses today, architected to scale into enterprise tomorrow.
+          DAWEBCO builds bold, high-performance websites engineered for trust, speed, and growth.
+          Designed to stand out. Built to outperform.
         </motion.p>
 
         {/* CTA buttons */}
@@ -134,7 +137,7 @@ export function HeroSection() {
                 "linear-gradient(135deg, #F5E6A3 0%, #D4AF37 40%, #C9A84C 70%, #B87333 100%)",
             }}
           >
-            Start Your Project
+            Start A Conversation
             <ArrowRight size={15} />
           </motion.a>
 
@@ -143,29 +146,12 @@ export function HeroSection() {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.2 }}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-medium text-white/60 border border-white/[0.12] hover:border-[#D4AF37]/30 hover:text-white/80 transition-all duration-300"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-medium text-white/60 border border-white/12 hover:border-[#D4AF37]/30 hover:text-white/80 transition-all duration-300"
           >
             See How We Work
           </motion.a>
         </motion.div>
 
-        {/* Social proof numbers */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1.05 }}
-          className="flex items-center gap-8 mt-14 pt-8"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
-        >
-          {STATS.map((s) => (
-            <div key={s.label} className="flex flex-col items-center">
-              <span className="text-2xl font-bold" style={goldTextStyle}>
-                {s.value}
-              </span>
-              <span className="text-xs text-white/35 mt-0.5 whitespace-nowrap">{s.label}</span>
-            </div>
-          ))}
-        </motion.div>
       </div>
 
       {/* Page transition fade */}
@@ -173,22 +159,6 @@ export function HeroSection() {
         className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
         style={{ background: "linear-gradient(to bottom, transparent, #030712)" }}
       />
-
-      {/* Scroll cue */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 0.7 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-[10px] text-white/20 tracking-[0.2em] uppercase">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-8"
-          style={{ background: "linear-gradient(to bottom, rgba(212,175,55,0.5), transparent)" }}
-        />
-      </motion.div>
     </section>
   )
 }

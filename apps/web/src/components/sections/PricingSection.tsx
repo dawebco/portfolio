@@ -1,322 +1,304 @@
-import type { CSSProperties, ReactNode } from "react"
+import type { CSSProperties } from "react"
 import { useRef } from "react"
-import { motion, useInView } from "framer-motion"
-import { Check, Zap, Star, Building2 } from "lucide-react"
+import { motion, useInView, useMotionValue, useTransform, useMotionTemplate } from "framer-motion"
+import { Check, Plus } from "lucide-react"
 
 interface PricingTier {
   id: string
-  icon: ReactNode
   name: string
   tagline: string
   price: string
-  priceNote: string
-  highlight: boolean
   accentColor: string
+  bgGlow: string
   features: string[]
   cta: string
 }
 
 const TIERS: PricingTier[] = [
   {
-    id: "essential",
-    icon: <Zap size={18} />,
-    name: "Essential Launch",
-    tagline: "For businesses establishing their digital presence",
-    price: "₹49,999",
-    priceNote: "one-time project fee",
-    highlight: false,
-    accentColor: "#C9A84C",
+    id: "starter",
+    name: "Starter",
+    tagline: "Perfect for small businesses & startups looking to launch fast.",
+    price: "₹4.9k+",
+    accentColor: "rgba(168, 85, 247, 0.4)", 
+    bgGlow: "rgba(168, 85, 247, 0.03)",
     cta: "Get Started",
     features: [
-      "Up to 5 custom pages",
-      "Mobile-responsive design",
-      "Custom domain & hosting setup",
-      "Basic SEO metadata & sitemap",
-      "Contact form integration",
-      "WhatsApp CTA button",
-      "Performance score 90+",
-      "2 revision rounds",
-      "2-week delivery",
-      "30-day post-launch support",
+      "1-Page Modern Website",
+      "Mobile & Tablet Responsive",
+      "High-Conversion Contact Form",
+      "Instant WhatsApp Integration",
+      "Google Maps Integration",
+      "Basic SEO Layout Setup",
+      "Optimized Fast Delivery",
     ],
   },
   {
-    id: "professional",
-    icon: <Star size={18} />,
-    name: "Professional Scale",
-    tagline: "For growing businesses ready to convert at scale",
-    price: "₹1,19,999",
-    priceNote: "one-time project fee",
-    highlight: true,
-    accentColor: "#D4AF37",
-    cta: "Most Popular — Start Now",
+    id: "growth",
+    name: "Growth",
+    tagline: "For businesses ready to expand their reach and showcase services.",
+    price: "₹9.9k+",
+    accentColor: "rgba(59, 130, 246, 0.4)", 
+    bgGlow: "rgba(59, 130, 246, 0.03)",
+    cta: "Get Started",
     features: [
-      "Up to 12 fully custom pages",
-      "Bespoke Figma UI/UX design",
-      "Next.js 15 production build",
-      "Advanced SEO metadata & schema",
-      "Google Analytics 4 integration",
-      "Blog / CMS integration",
-      "Performance score 95+",
-      "3 revision rounds",
-      "4-week delivery",
-      "WhatsApp & chat integration",
-      "Social media feed embeds",
-      "60-day post-launch support",
+      "Everything in Starter included",
+      "Up to 5 Multi-functional Pages",
+      "Bespoke Custom UI Design",
+      "Dedicated Service/Product Showcase",
+      "High-Fidelity Image Gallery",
+      "Advanced Contact Forms",
+      "Google Business Profile Setup",
+      "Full On-Page SEO Optimization",
     ],
   },
   {
-    id: "enterprise",
-    icon: <Building2 size={18} />,
-    name: "Custom Enterprise",
-    tagline: "Bespoke digital systems engineered for scale",
-    price: "Custom",
-    priceNote: "scoped to your requirements",
-    highlight: false,
-    accentColor: "#B87333",
-    cta: "Book a Discovery Call",
+    id: "premium",
+    name: "Premium",
+    tagline: "For established brands demanding a flagship digital asset.",
+    price: "₹19.9k+",
+    accentColor: "rgba(20, 184, 166, 0.4)", 
+    bgGlow: "rgba(20, 184, 166, 0.03)",
+    cta: "Get Started",
     features: [
-      "Unlimited pages & sections",
-      "Full-stack Next.js application",
-      "Custom API integrations",
-      "Advanced animation system",
-      "Multi-language / i18n support",
-      "E-commerce or SaaS features",
-      "Performance score 99+",
-      "Unlimited revisions",
-      "Dedicated project manager",
-      "Staff training & documentation",
-      "Priority 24/7 support",
-      "Ongoing retainer options",
+      "Everything in Growth included",
+      "Fully Custom Advanced Framework",
+      "Premium Micro-Animations",
+      "Luxury High-Tier UI/UX System",
+      "Lead Generation Infrastructure",
+      "Performance & Speed Fine-Tuning",
+      "Advanced Security Optimization",
+      "Priority Developer Support Line",
     ],
   },
 ]
 
+const ADD_ONS = [
+  { title: "Domain (.com / .in)", description: "Secured at actual real-time cost pricing" },
+  { title: "Business Email Setup", description: "Professional @yourbrand workspace layout" },
+  { title: "Logo & Brand Identity", description: "Bespoke digital vector branding assets" },
+  { title: "Monthly Maintenance", description: "Regular structural code updates & continuous backups" },
+  { title: "Premium Content Writing", description: "Copywriting designed to capture search intent & convert" },
+  { title: "Social Media Channel Rigging", description: "Seamless consistency setups across networks" },
+  { title: "Additional Dynamic Pages", description: "Expand your site scale systematically as needed" },
+  { title: "Google Business Profile Optimization", description: "Continuous local map ranking maps management" },
+]
+
 const sectionHeadStyle: CSSProperties = {
-  fontFamily: "'Playfair Display', Georgia, serif",
-  background: "linear-gradient(135deg, #FFFFFF 0%, #F5E6A3 40%, #D4AF37 100%)",
+  fontFamily: 'var(--font-display, "Cinzel", "Playfair Display", Georgia, serif)',
+  background: "linear-gradient(135deg, #FFFFFF 0%, #ECE2B4 50%, #C5A059 100%)",
   WebkitBackgroundClip: "text",
   WebkitTextFillColor: "transparent",
   backgroundClip: "text",
+  letterSpacing: "-0.02em",
+  paddingBottom: "0.15em",
+  marginBottom: "-0.15em",
 }
 
-function PopularBorderCard({ tier, index }: { tier: PricingTier; index: number }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-60px" })
+function PricingCard({ tier, index }: { tier: PricingTier; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(cardRef, { once: true, margin: "-40px" })
+
+  // Motion values for tracking cursor position relative to the card bounds
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+
+  // 3D Tilt angles mapped from cursor positions (max 10 degrees tilt for premium subtlety)
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], [10, -10])
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-10, 10])
+
+  // Mouse move handler to compute precise fractional offsets from the card center
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    
+    // Absolute positions inside the card for the cursor spotlight gradient
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    mouseX.set((x / rect.width) - 0.5)
+    mouseY.set((y / rect.height) - 0.5)
+
+    // Set custom CSS variables on the element for optimized spotlight rendering
+    cardRef.current.style.setProperty("--mouse-x", `${x}px`)
+    cardRef.current.style.setProperty("--mouse-y", `${y}px`)
+  }
+
+  function handleMouseLeave() {
+    // Smoothly snap back to flat orientation when mouse exits
+    mouseX.set(0)
+    mouseY.set(0)
+  }
+
+  // Combine spotlight position dynamically with standard tier bg color overrides
+  const spotlightBackground = useMotionTemplate`
+    radial-gradient(
+      280px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+      ${tier.accentColor.replace("0.4", "0.12")},
+      transparent 80%
+    )
+  `
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.12, ease: [0.25, 0.4, 0.25, 1] }}
-      className="relative"
-      style={{ zIndex: tier.highlight ? 2 : 1 }}
+    <div 
+      style={{ perspective: "1000px" }} 
+      className="h-full"
     >
-      {tier.highlight ? (
-        /* Animated gradient border for Most Popular */
-        <div className="relative rounded-3xl p-[1.5px] overflow-hidden" style={{ background: "transparent" }}>
-          <motion.div
-            className="absolute inset-0 rounded-3xl"
-            animate={{
-              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-            }}
-            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-            style={{
-              backgroundSize: "300% 300%",
-              backgroundImage:
-                "linear-gradient(90deg, #D4AF37, #F5E6A3, #C9A84C, #B87333, #F5E6A3, #D4AF37)",
-            }}
-          />
-          <PricingCardInner tier={tier} />
-        </div>
-      ) : (
-        <PricingCardInner tier={tier} />
-      )}
-    </motion.div>
-  )
-}
-
-function PricingCardInner({ tier }: { tier: PricingTier }) {
-  return (
-    <div
-      className="group relative flex flex-col h-full rounded-3xl p-7 md:p-8 overflow-hidden"
-      style={{
-        background: tier.highlight ? "rgba(8,14,28,0.98)" : "rgba(7,14,26,0.6)",
-        border: tier.highlight ? "none" : "1px solid rgba(255,255,255,0.07)",
-        backdropFilter: "blur(16px)",
-        minHeight: "660px",
-      }}
-    >
-      {/* Card glow */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+      <motion.div
+        ref={cardRef}
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
         style={{
-          background: `radial-gradient(ellipse at 50% 0%, ${tier.accentColor}0C 0%, transparent 65%)`,
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
+          background: `linear-gradient(180deg, ${tier.bgGlow} 0%, rgba(7, 10, 18, 0.4) 100%)`,
+          border: `1px solid ${tier.accentColor}`,
         }}
-      />
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+        className="group relative flex flex-col h-full rounded-2xl p-8 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-black/50"
+      >
+        {/* Dynamic Interactive Spotlight Layer */}
+        <motion.div 
+          className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ background: spotlightBackground }}
+        />
 
-      {/* Most Popular badge */}
-      {tier.highlight && (
-        <div
-          className="absolute top-5 right-5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase"
+        <div className="relative z-10 flex items-baseline justify-between gap-4 mb-3" style={{ transform: "translateZ(20px)" }}>
+          <h3
+            className="text-2xl font-medium text-white/95 tracking-tight"
+            style={{ fontFamily: 'var(--font-sans, "Inter", sans-serif)' }}
+          >
+            {tier.name}
+          </h3>
+          <span
+            className="text-2xl font-medium text-white/95 tracking-tight"
+            style={{ fontFamily: 'var(--font-sans, "Inter", sans-serif)' }}
+          >
+            {tier.price}
+          </span>
+        </div>
+
+        <p className="relative z-10 text-sm text-white/45 leading-relaxed mb-6 h-12" style={{ transform: "translateZ(15px)" }}>
+          {tier.tagline}
+        </p>
+
+        <motion.a
+          href="#contact"
+          whileHover={{ background: "rgba(255, 255, 255, 0.08)", borderColor: "rgba(255, 255, 255, 0.2)" }}
+          whileTap={{ scale: 0.98 }}
+          className="relative z-10 w-full inline-flex items-center justify-center py-3 rounded-xl text-sm font-medium transition-all duration-300 mb-8"
           style={{
-            background: "linear-gradient(135deg, #D4AF37, #B87333)",
-            color: "#000",
+            background: "rgba(255, 255, 255, 0.03)",
+            border: "1px solid rgba(255, 255, 255, 0.08)",
+            color: "#FFF",
+            fontFamily: 'var(--font-sans, "Inter", sans-serif)',
+            transform: "translateZ(25px)"
           }}
         >
-          Most Popular
+          {tier.cta}
+        </motion.a>
+
+        <div className="relative z-10 text-xs uppercase tracking-wider text-white/40 mb-4 font-semibold" style={{ transform: "translateZ(10px)" }}>
+          Includes
         </div>
-      )}
 
-      {/* Tier icon */}
-      <div
-        className="w-10 h-10 rounded-xl flex items-center justify-center mb-5"
-        style={{
-          background: `${tier.accentColor}14`,
-          border: `1px solid ${tier.accentColor}28`,
-          color: tier.accentColor,
-        }}
-      >
-        {tier.icon}
-      </div>
-
-      {/* Tier identity */}
-      <h3
-        className="text-xl font-bold text-white mb-1"
-        style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-      >
-        {tier.name}
-      </h3>
-      <p className="text-xs text-white/40 leading-relaxed mb-6">{tier.tagline}</p>
-
-      {/* Price */}
-      <div className="mb-7">
-        <span
-          className="text-4xl font-black"
-          style={{
-            color: tier.highlight ? "#D4AF37" : "#fff",
-            fontFamily: tier.highlight ? "'Playfair Display', Georgia, serif" : "inherit",
-          }}
-        >
-          {tier.price}
-        </span>
-        <span className="text-xs text-white/35 ml-2">{tier.priceNote}</span>
-      </div>
-
-      {/* Divider */}
-      <div
-        className="w-full h-px mb-6"
-        style={{ background: `linear-gradient(to right, ${tier.accentColor}30, transparent)` }}
-      />
-
-      {/* Feature list */}
-      <ul className="flex flex-col gap-3 flex-1">
-        {tier.features.map((f) => (
-          <li key={f} className="flex items-start gap-3 text-sm text-white/60 leading-snug">
-            <Check
-              size={13}
-              className="mt-0.5 flex-shrink-0"
-              style={{ color: tier.accentColor }}
-            />
-            {f}
-          </li>
-        ))}
-      </ul>
-
-      {/* CTA */}
-      <motion.a
-        href="#contact"
-        whileHover={{ scale: 1.03, boxShadow: tier.highlight ? `0 0 32px ${tier.accentColor}40` : "none" }}
-        whileTap={{ scale: 0.97 }}
-        transition={{ duration: 0.2 }}
-        className="mt-8 w-full inline-flex items-center justify-center py-3.5 rounded-xl text-sm font-bold transition-all duration-300"
-        style={
-          tier.highlight
-            ? {
-                background: "linear-gradient(135deg, #F5E6A3 0%, #D4AF37 40%, #B87333 100%)",
-                color: "#000",
-              }
-            : {
-                background: `${tier.accentColor}14`,
-                border: `1px solid ${tier.accentColor}30`,
-                color: tier.accentColor,
-              }
-        }
-      >
-        {tier.cta}
-      </motion.a>
+        <ul className="relative z-10 flex flex-col gap-3.5 flex-1" style={{ transform: "translateZ(10px)" }}>
+          {tier.features.map((feature) => (
+            <li key={feature} className="flex items-start gap-3.5 text-sm text-white/70 leading-snug">
+              <Check size={15} className="mt-0.5 shrink-0 text-white/60 transition-transform group-hover:scale-110" />
+              <span style={{ fontFamily: 'var(--font-sans, "Inter", sans-serif)' }}>{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </motion.div>
     </div>
   )
 }
 
 export function PricingSection() {
   const headingRef = useRef<HTMLDivElement>(null)
-  const headingInView = useInView(headingRef, { once: true, margin: "-60px" })
+  const headingInView = useInView(headingRef, { once: true, margin: "-40px" })
 
   return (
-    <section id="pricing" className="relative py-28 px-6 md:px-12" style={{ background: "#030712" }}>
-      {/* Background glow */}
+    <section id="pricing" className="relative py-36 px-6 md:px-12 lg:px-24 overflow-hidden" style={{ background: "#02040a" }}>
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(212,175,55,0.05) 0%, transparent 70%)",
+          background: "radial-gradient(circle 1000px at 50% 40%, rgba(168, 85, 247, 0.02) 0%, transparent 60%)",
         }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto">
-        {/* Section header */}
+      <div className="relative z-10 max-w-7xl mx-auto">
         <motion.div
           ref={headingRef}
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={headingInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
-          className="text-center mb-16"
+          transition={{ duration: 0.6 }}
+          className="mb-24 text-left"
         >
           <span
-            className="inline-block text-xs font-mono tracking-[0.2em] uppercase mb-4"
+            className="inline-block text-xs font-mono tracking-[0.3em] uppercase mb-4 font-bold"
             style={{ color: "#D4AF37" }}
           >
-            Pricing
+            Transparent Pricing
           </span>
           <h2
-            className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight"
+            className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight leading-[1.05]"
             style={sectionHeadStyle}
           >
-            Investment-Grade
-            <br />
-            Value Frameworks.
+            Our Pricing Plan
           </h2>
-          <p className="mt-5 text-white/40 max-w-md mx-auto text-sm md:text-base leading-relaxed">
-            Transparent, results-driven pricing. No hidden fees, no lock-in.
-            Every tier is engineered to deliver measurable ROI.
+          <p 
+            className="mt-6 text-white/40 max-w-2xl text-base md:text-lg leading-relaxed font-normal"
+            style={{ fontFamily: 'var(--font-sans, "Plus Jakarta Sans", "Inter", sans-serif)' }}
+          >
+            Clear, realistic product setups structured to scale without surprise costs. Find the exact framework your goals demand.
           </p>
         </motion.div>
 
-        {/* Pricing grid — middle card elevated on desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-4 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch mb-28">
           {TIERS.map((tier, i) => (
-            <div
-              key={tier.id}
-              className={tier.highlight ? "md:-mt-4 md:mb-0" : "md:mt-4"}
-            >
-              <PopularBorderCard tier={tier} index={i} />
-            </div>
+            <PricingCard key={tier.id} tier={tier} index={i} />
           ))}
         </div>
 
-        {/* Trust footnote */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="text-center text-xs text-white/25 mt-10"
-        >
-          All projects include NDA protection · Milestone-based payment schedule available ·
-          Prices in INR, international billing supported
-        </motion.p>
+        <div className="border-t border-white/5 pt-16">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div className="lg:col-span-1">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-white/80 mb-2" style={{ fontFamily: 'var(--font-sans, "Inter", sans-serif)' }}>
+                AVAILABLE ADD-ONS
+              </h3>
+              <p className="text-xs text-white/40 leading-relaxed">
+                Need extra components? Expand your standard architecture seamlessly as requirements evolve over time.
+              </p>
+            </div>
+            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
+              {ADD_ONS.map((addon, index) => (
+                <motion.div 
+                  key={index} 
+                  whileHover={{ 
+                    scale: 1.02, 
+                    backgroundColor: "rgba(255, 255, 255, 0.03)", 
+                    borderColor: "rgba(255, 255, 255, 0.08)" 
+                  }}
+                  whileTap={{ scale: 0.99 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  className="flex gap-4 p-4 rounded-xl border border-white/[0.03] bg-white/[0.01] cursor-pointer transition-colors duration-200 group/addon"
+                >
+                  <Plus size={14} className="text-white/40 shrink-0 mt-0.5 transition-transform duration-300 group-hover/addon:rotate-90 group-hover/addon:text-white/80" />
+                  <div>
+                    <h4 className="text-sm font-medium text-white/90 mb-0.5 transition-colors duration-200 group-hover/addon:text-white" style={{ fontFamily: 'var(--font-sans, "Inter", sans-serif)' }}>
+                      {addon.title}
+                    </h4>
+                    <p className="text-xs text-white/40 leading-normal transition-colors duration-200 group-hover/addon:text-white/60">{addon.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )

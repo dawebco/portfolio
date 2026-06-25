@@ -350,7 +350,7 @@ export default function ParticleEffectHero() {
           className="px-5 py-2.5 rounded-full text-sm font-bold text-black"
           style={{ background: "linear-gradient(135deg, #F5E6A3, #D4AF37, #B87333)" }}
         >
-          Start a Project
+          Start a Conversation
         </a>
       </nav>
 

@@ -1,207 +1,212 @@
 import type { CSSProperties, ReactNode } from "react"
-import { useRef } from "react"
-import { motion, useInView } from "framer-motion"
-import { Search, Palette, Code2, Rocket } from "lucide-react"
+import { useRef, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Search, ClipboardList, PenTool, Code2, Rocket, LifeBuoy } from "lucide-react"
 
 interface Step {
-  number: string
+  id: string
   icon: ReactNode
   title: string
   description: string
-  detail: string
   accent: string
 }
 
 const STEPS: Step[] = [
   {
-    number: "01",
-    icon: <Search size={22} />,
-    title: "Discovery & Copywriting",
-    description:
-      "We immerse ourselves in your brand, market position, and customer psychology — then craft razor-sharp copy that speaks directly to your buyers.",
-    detail: "Brand audit · Competitor mapping · Conversion copywriting · Information architecture",
+    id: "discover",
+    icon: <Search size={20} />,
+    title: "Discover",
+    description: "We understand your business, goals, audience, and website requirements.",
+    accent: "#FFFFFF",
+  },
+  {
+    id: "plan",
+    icon: <ClipboardList size={20} />,
+    title: "Plan",
+    description: "We define the website structure, pages, content flow, and design direction.",
+    accent: "#F5E6A3",
+  },
+  {
+    id: "design",
+    icon: <PenTool size={20} />,
+    title: "Design",
+    description: "We create a clean, modern interface that matches your brand.",
+    accent: "#ECE2B4",
+  },
+  {
+    id: "develop",
+    icon: <Code2 size={20} />,
+    title: "Develop",
+    description: "We build a responsive, fast, and reliable website.",
     accent: "#D4AF37",
   },
   {
-    number: "02",
-    icon: <Palette size={22} />,
-    title: "Custom High-Fi Designs",
-    description:
-      "Every pixel is intentional. We produce Figma-first, high-fidelity designs unique to your brand — no templates, no shortcuts.",
-    detail: "Figma prototypes · Mobile-first · Dark/light variants · Micro-interaction specs",
-    accent: "#C9A84C",
+    id: "launch",
+    icon: <Rocket size={20} />,
+    title: "Launch",
+    description: "We test, optimize, deploy, and connect your website to your domain.",
+    accent: "#C5A059",
   },
   {
-    number: "03",
-    icon: <Code2 size={22} />,
-    title: "Next.js Production Build",
-    description:
-      "Your design becomes a blazing-fast, SEO-ready web application — built on Next.js 15 with TypeScript, production-grade and future-proof.",
-    detail: "Next.js 15 · TypeScript · Tailwind CSS · Vercel deployment · Edge runtime",
+    id: "support",
+    icon: <LifeBuoy size={20} />,
+    title: "Support",
+    description: "We help with updates, improvements, and future changes.",
     accent: "#B87333",
-  },
-  {
-    number: "04",
-    icon: <Rocket size={22} />,
-    title: "Optimisation & Handover",
-    description:
-      "We push Lighthouse scores past 95, implement custom SEO metadata, and hand over full ownership with documentation and training.",
-    detail: "Core Web Vitals · Analytics · SEO metadata · CMS handover · Ongoing retainer options",
-    accent: "#E8C97A",
   },
 ]
 
 const sectionHeadStyle: CSSProperties = {
-  fontFamily: "'Playfair Display', Georgia, serif",
-  background: "linear-gradient(135deg, #FFFFFF 0%, #F5E6A3 40%, #D4AF37 100%)",
+  fontFamily: "'Cinzel', 'Playfair Display', Georgia, serif",
+  background: "linear-gradient(135deg, #FFFFFF 0%, #ECE2B4 50%, #C5A059 100%)",
   WebkitBackgroundClip: "text",
   WebkitTextFillColor: "transparent",
   backgroundClip: "text",
+  letterSpacing: "-0.02em",
 }
 
-function StepCard({ step, index }: { step: Step; index: number }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-80px" })
-  const isEven = index % 2 === 0
+interface StepCardProps {
+  step: Step
+  index: number
+  hoveredIndex: number | null
+  setHoveredIndex: (index: number | null) => void
+}
 
+function StepCard({ step, index, hoveredIndex, setHoveredIndex }: StepCardProps) {
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, x: isEven ? -40 : 40, y: 20 }}
-      animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
-      transition={{ duration: 0.75, delay: index * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
-      className="group relative flex gap-6 p-7 rounded-2xl cursor-default"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.6, delay: index * 0.05, ease: [0.215, 0.61, 0.355, 1] }}
+      onMouseEnter={() => setHoveredIndex(index)}
+      onMouseLeave={() => setHoveredIndex(null)}
+      className="group relative flex gap-6 p-8 rounded-2xl cursor-pointer transition-all duration-500"
       style={{
-        background: "rgba(7,14,26,0.6)",
-        border: "1px solid rgba(255,255,255,0.06)",
-        backdropFilter: "blur(12px)",
+        background: "rgba(7, 14, 26, 0.3)",
+        border: "1px solid rgba(255, 255, 255, 0.03)",
+        backdropFilter: "blur(16px)",
       }}
       whileHover={{
-        borderColor: `${step.accent}30`,
-        backgroundColor: "rgba(10,18,35,0.8)",
+        y: -6,
+        borderColor: "rgba(255, 255, 255, 0.08)",
+        boxShadow: "0 20px 40px -15px rgba(0,0,0,0.5)",
       }}
     >
-      {/* Glow on hover */}
-      <div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{
-          background: `radial-gradient(ellipse at 0% 0%, ${step.accent}08 0%, transparent 60%)`,
-        }}
-      />
+      {/* Dynamic Background Layout Tracking Line System */}
+      <AnimatePresence>
+        {hoveredIndex === index && (
+          <motion.div
+            layoutId="activeCardGlow"
+            className="absolute inset-0 rounded-2xl pointer-events-none z-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+            style={{
+              background: `radial-gradient(circle at 50% 0%, ${step.accent}0d 0%, transparent 75%)`,
+              borderTop: `1px solid ${step.accent}30`,
+            }}
+          />
+        )}
+      </AnimatePresence>
 
-      {/* Step number + icon */}
-      <div className="shrink-0 flex flex-col items-center gap-3 pt-1">
-        <span
-          className="text-xs font-mono font-bold tracking-wider"
-          style={{ color: `${step.accent}80` }}
-        >
-          {step.number}
-        </span>
-        <div
-          className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-          style={{
-            background: `${step.accent}14`,
-            border: `1px solid ${step.accent}25`,
-            color: step.accent,
-          }}
-        >
-          {step.icon}
+      {/* Main Content Layout Container */}
+      <div className="relative z-10 flex gap-6 w-full">
+        <div className="shrink-0 flex flex-col items-center pt-1">
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-500 group-hover:scale-110"
+            style={{
+              background: `linear-gradient(135deg, ${step.accent}15, transparent)`,
+              border: `1px solid ${step.accent}25`,
+              color: step.accent,
+              boxShadow: `0 0 20px -5px ${step.accent}20`,
+            }}
+          >
+            {step.icon}
+          </div>
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="flex flex-col gap-3 min-w-0">
-        <h3
-          className="text-lg font-semibold text-white/90 leading-tight"
-          style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-        >
-          {step.title}
-        </h3>
-        <p className="text-sm text-white/45 leading-relaxed">{step.description}</p>
-        <p className="text-xs font-mono tracking-wide mt-1" style={{ color: `${step.accent}65` }}>
-          {step.detail}
-        </p>
+        <div className="flex flex-col gap-2.5 min-w-0 justify-center">
+          <h3
+            className="text-xl font-medium text-white/90 leading-tight transition-colors duration-300 group-hover:text-white"
+            style={{ fontFamily: "'Cinzel', 'Playfair Display', Georgia, serif" }}
+          >
+            {step.title}
+          </h3>
+          <p 
+            className="text-sm text-white/60 leading-relaxed font-normal" 
+            style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}
+          >
+            {step.description}
+          </p>
+        </div>
       </div>
     </motion.div>
   )
 }
 
 export function HowWeWorkSection() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const headingRef = useRef<HTMLDivElement>(null)
-  const headingInView = useInView(headingRef, { once: true, margin: "-60px" })
 
   return (
-    <section id="process" className="relative py-28 px-6 md:px-12" style={{ background: "#030712" }}>
-      {/* Background texture */}
+    <section
+      id="process"
+      className="relative py-36 px-6 md:px-12 lg:px-24 overflow-hidden"
+      style={{ background: "#02040a" }}
+    >
+      {/* Background Ambience Layer */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 40% at 80% 50%, rgba(212,175,55,0.04) 0%, transparent 70%)",
+            "radial-gradient(circle 1000px at 80% 20%, rgba(212, 175, 55, 0.015) 0%, transparent 80%)",
         }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto">
-        {/* Section header */}
+      <div className="relative z-10 max-w-7xl mx-auto">
         <motion.div
           ref={headingRef}
-          initial={{ opacity: 0, y: 30 }}
-          animate={headingInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
-          className="mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-24 text-left"
         >
           <span
-            className="inline-block text-xs font-mono tracking-[0.2em] uppercase mb-4"
+            className="inline-block text-xs font-mono tracking-[0.3em] uppercase mb-4 font-bold"
             style={{ color: "#D4AF37" }}
           >
-            Our Process
+            Our Methodology
           </span>
           <h2
-            className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight max-w-2xl"
+            className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight leading-[1.05]"
             style={sectionHeadStyle}
           >
-            From Brief to
-            <br />
-            Launch-Ready.
+            How We Work
           </h2>
-          <p className="mt-5 text-white/45 max-w-lg text-sm md:text-base leading-relaxed">
-            A structured four-phase process designed to eliminate guesswork and deliver extraordinary
-            results — on scope, on time, every time.
+          <p 
+            className="mt-6 text-white/40 max-w-2xl text-base md:text-lg leading-relaxed font-normal"
+            style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}
+          >
+            A high-fidelity framework engineered for structured translation, fluid communication channels, 
+            and pristine deployment timelines.
           </p>
         </motion.div>
 
-        {/* Asymmetric step grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {/* Primary Interactive Process Grid Structure */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
           {STEPS.map((step, i) => (
-            <StepCard key={step.number} step={step} index={i} />
+            <StepCard 
+              key={step.id} 
+              step={step} 
+              index={i} 
+              hoveredIndex={hoveredIndex}
+              setHoveredIndex={setHoveredIndex}
+            />
           ))}
         </div>
-
-        {/* Timeline connector hint on desktop */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.6, duration: 0.6 }}
-          className="hidden md:flex items-center justify-center mt-12 gap-4"
-        >
-          {STEPS.map((step, i) => (
-            <div key={step.number} className="flex items-center gap-4">
-              <div
-                className="w-2 h-2 rounded-full"
-                style={{ background: step.accent, opacity: 0.7 }}
-              />
-              {i < STEPS.length - 1 && (
-                <div
-                  className="w-16 h-px"
-                  style={{
-                    background: `linear-gradient(to right, ${STEPS[i].accent}50, ${STEPS[i + 1].accent}50)`,
-                  }}
-                />
-              )}
-            </div>
-          ))}
-        </motion.div>
       </div>
     </section>
   )

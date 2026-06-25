@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | DaWebCo.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030712;
+            --card-bg: rgba(7, 14, 26, 0.6);
+            --border-color: rgba(255, 255, 255, 0.07);
+            --text-primary: rgba(255, 255, 255, 0.9);
+            --text-secondary: rgba(255, 255, 255, 0.5);
+            --text-muted: rgba(255, 255, 255, 0.35);
+            --gold-accent: #D4AF37;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 80px 24px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Ambient Premium Glow Backing */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 1200px;
+            height: 600px;
+            background: radial-gradient(circle 600px at 50% 0%, rgba(212, 175, 55, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--gold-accent);
+            text-decoration: none;
+            font-size: 13px;
+            font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 32px;
+            transition: opacity 0.2s ease;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        header {
+            margin-bottom: 48px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5E6A3 40%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .meta-date {
+            font-size: 12px;
+            font-family: monospace;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, rgba(212,175,55,0.2), transparent);
+            margin: 32px 0;
+        }
+
+        .terms-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(12px);
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        section:last-child {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 16px;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        ul {
+            list-style-type: none;
+            margin-bottom: 16px;
+            padding-left: 4px;
+        }
+
+        li {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        li::before {
+            content: "•";
+            color: var(--gold-accent);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: 4px;
+            flex-shrink: 0;
+        }
+
+        .highlight {
+            color: #FFF;
+            font-weight: 500;
+        }
+
+        .email-link {
+            color: var(--gold-accent);
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(212, 175, 55, 0.4);
+            transition: border-color 0.2s ease;
+        }
+
+        .email-link:hover {
+            border-bottom-color: var(--gold-accent);
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 48px 16px;
+            }
+            .terms-content {
+                padding: 24px;
+            }
+            h2 {
+                font-size: 19px;
+            }
+            p, li {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="/" class="back-link">← Back to Home</a>
+    
+    <header>
+        <h1>Terms of Service</h1>
+        <div class="meta-date">Last Updated: June 25, 2026</div>
+    </header>
+
+    <div class="terms-content">
+        <p>Welcome to <span class="highlight">DaWebCo.</span> By browsing, accessing, or interacting with our web interface located at <span class="highlight">dawebco.com</span>, or by utilizing our interactive forms to submit project briefs, you agree to comply with and be bound by the following Terms of Service. If you do not accept these terms, please discontinue use of this site immediately.</p>
+
+        <hr>
+
+        <section>
+            <h2>1. Core Project Inquiries & Brief Submissions</h2>
+            <p>Our website serves as a premium project design showcase and communication pipeline. Any project briefs or business scope definitions submitted through our digital contact modules are treated as initial discovery requests:</p>
+            <ul>
+                <li>Submitting an inquiry does not constitute a formal contract or binding development agreement.</li>
+                <li>All text parameters, budgets, and operational ideas provided must be accurate representations of your business intentions.</li>
+                <li>We reserve the right to decline project proposals or consultation scheduling at our sole creative discretion.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Intellectual Property Rights</h2>
+            <p>The entire layout system, styling, premium interactions, customized assets, text copy, and source logic presented on this Website are the exclusive intellectual property of <span class="highlight">DaWebCo.</span>:</p>
+            <ul>
+                <li>You may not copy, replicate, crawl, reverse-engineer, or redistribute our micro-animations, code components, or styling frameworks without explicit, written master authorization.</li>
+                <li>Client case updates and branding assets displayed belong strictly to their respective owners and are shown under operational showcase rules.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>3. Service Boundaries & Limitations</h2>
+            <p>The informational frameworks, pricing tier estimates, and reference parameters hosted on this landing page are structured for transparent scoping guidance:</p>
+            <ul>
+                <li>Final project costs, deliverables, SLA terms, and engineering criteria are governed exclusively by independent, signed statement of work documents (SOWs) and are not bound by the layout parameters of this site.</li>
+                <li>We maintain an optimized, secure experience but do not guarantee that tracking-free scripts or background animations will run perfectly on obsolete browser configurations.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>4. Third-Party Services & Native Tools</h2>
+            <p>Our digital ecosystem references and incorporates native systems including Google Maps APIs and local browser structures to deliver high-fidelity interaction layouts. Your interaction with these embedded map grids is governed concurrently by Google's standard external terms.</p>
+        </section>
+
+        <section>
+            <h2>5. Governing Law & Jurisdiction</h2>
+            <p>These terms are governed by and construed in strict accordance with the laws of the State of Karnataka, India. Any structural legal claims, dispute adjustments, or interpretation actions stemming from website interactions shall be submitted exclusively to the competent courts of jurisdiction in <span class="highlight">Mangalore, Karnataka, India</span>.</p>
+        </section>
+
+        <section>
+            <h2>6. Revisions to Terms</h2>
+            <p>We modify layout setups and rewrite these operational parameters occasionally to maintain regulatory sync. Your persistent tracking-free access to our web interfaces confirms your agreement to updated revisions.</p>
+        </section>
+
+        <section>
+            <h2>7. Contact Information</h2>
+            <p>For questions or formal notifications regarding our legal architecture, reach out directly to the studio leads at: <a href="mailto:dawebsiteco@gmail.com" class="email-link">dawebsiteco@gmail.com</a>.</p>
+        </section>
+    </div>
+</div>
+
+</body>
+</html>
