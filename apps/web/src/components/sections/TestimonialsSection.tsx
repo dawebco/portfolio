@@ -179,7 +179,7 @@ export function TestimonialsSection() {
             Chose to Win.
           </h2>
           <p className="mt-6 text-white/40 max-w-xl text-base leading-relaxed font-normal">
-            Real outcomes from local luxury businesses. These aren&apos;t just websites — they&apos;re growth engines built for business owners who demand a premium presence.
+            Real outcomes from local luxury businesses. These aren&apos;t just websites - they&apos;re growth engines built for business owners who demand a premium presence.
           </p>
         </motion.div>
 

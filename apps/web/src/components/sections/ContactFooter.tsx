@@ -6,7 +6,7 @@ import { Mail, MessageCircle, ArrowRight, Globe } from "lucide-react"
 
 // Updated behind-the-scenes premium WhatsApp endpoint string 
 const WHATSAPP_URL =
-  "https://wa.me/919764211715?text=Hi%20DaWebCo.%2C%20I%27d%20like%20to%20discuss%20a%20web%20project.%20Can%20we%20schedule%20a%20discovery%20call%3F"
+  "https://wa.me/917625072926?text=Hi%20DaWebCo%2C%20I%27d%20like%20to%20discuss%20a%20web%20project.%20Can%20we%20schedule%20a%20discovery%20call%3F"
 
 const EMAIL = "dawebsiteco@gmail.com"
 
@@ -327,7 +327,7 @@ export function ContactFooter() {
               Something Exceptional.
             </h2>
             <p className="mt-5 text-white/40 max-w-md text-sm md:text-base leading-relaxed">
-              Ready to elevate your digital presence? Reach out through any channel below — we
+              Ready to elevate your digital presence? Reach out through any channel below - we
               reply within 24 hours.
             </p>
           </motion.div>
@@ -379,7 +379,7 @@ export function ContactFooter() {
                   style={{ background: "#25D366", boxShadow: "0 0 6px #25D36680" }}
                 />
                 <span className="text-xs text-white/50">
-                  Currently accepting new projects &mdash;{" "}
+                  Currently accepting new projects - {" "}
                   <span className="text-white/70 font-medium">2 spots available this quarter</span>
                 </span>
               </motion.div>
